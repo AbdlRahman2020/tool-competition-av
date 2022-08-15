@@ -1,7 +1,7 @@
 import json
 import logging as log
 
-from beamngpy import BeamNGpy, Scenario, Vehicle
+from beamngpy import BeamNGpy, Scenario, Vehicle, StaticObject, ProceduralRing
 from beamngpy.sensors import Camera
 
 from self_driving.beamng_waypoint import BeamNGWaypoint
@@ -88,6 +88,19 @@ class BeamNGBrewer:
 
         if self.camera:
             self.scenario.add_camera(self.camera.camera, self.camera.name)
+        # Add a ramp and a ring on the road
+        ramp = StaticObject(name='pybridge', pos=(12.0, 30.0, -28.0), rot=(1, 1, 1), scale=(1, 1, 1), shape='/levels_template/tig/art/objects/cja_bridge_p1.dae')
+        self.scenario.add_object(ramp)
+
+        ring = ProceduralRing(name='pyring', pos=(8.0, 50.0, -28.0), rot=(0, 0, 100), radius=5, thickness=2.5)
+        self.scenario.add_procedural_mesh(ring)
+
+        # Add couple of trees as obstacles on the road
+        ramp1 = StaticObject(name='tree_oak_large_b200', pos=(12.0, 30.0, -28.0), rot=(1, 1, 1), scale=(1, 1, 1), shape='/levels_template/tig/art/objects/tree_oak_large_b.dae')
+        self.scenario.add_object(ramp1)
+
+        ramp2 = StaticObject(name='tree_oak_large_b600', pos=(8.0, 50.0, -28.0), rot=(1, 1, 1), scale=(1, 1, 1), shape='/levels_template/tig/art/objects/tree_oak_large_b.dae')
+        self.scenario.add_object(ramp2)
 
         self.scenario.make(self.beamng)
 
